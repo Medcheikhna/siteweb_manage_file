@@ -40,30 +40,31 @@ class FileViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> pickAndUploadFile(BuildContext context) async {
-    final result = await FilePicker.platform.pickFiles();
+  Future<void> pickAndUploadFiles(BuildContext context) async {
+    final result = await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null && result.files.isNotEmpty) {
-      final file = result.files.first;
-
       isUploading = true;
       notifyListeners();
 
       try {
-        await uploadFile(file.bytes!, file.name);
+        for (var file in result.files) {
+          await uploadFile(file.bytes!, file.name);
+        }
+
         isUploading = false;
         notifyListeners();
 
         await showResultDialog(context, 'Upload Successful',
-            '${file.name} uploaded successfully!');
+            '${result.files.length} file(s) uploaded successfully!');
       } catch (e) {
         isUploading = false;
         notifyListeners();
         await showResultDialog(context, 'Upload Failed', e.toString());
       }
     } else {
-      await showResultDialog(
-          context, 'No File Selected', 'Please select a file to upload.');
+      await showResultDialog(context, 'No File Selected',
+          'Please select at least one file to upload.');
     }
   }
 
@@ -101,9 +102,6 @@ class FileViewModel extends ChangeNotifier {
 
       await _service.deleteFile(fileName);
       await loadAllFiles();
-
-      fileDeleteInProgress[fileName] = false;
-      notifyListeners();
 
       await showResultDialog(context, 'File Deleted',
           'The file "$fileName" has been deleted successfully.');

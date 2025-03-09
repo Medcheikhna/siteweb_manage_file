@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   icon: const Icon(Icons.upload_file),
                   label:
                       const Text('Upload File', style: TextStyle(fontSize: 16)),
-                  onPressed: () => viewModel.pickAndUploadFile(context),
+                  onPressed: () => viewModel.pickAndUploadFiles(context),
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         vertical: 14, horizontal: 20),
