@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:upload_file_site_web/view_model_view/file_viewmodel.dart';
+import 'package:upload_file_site_web/view_model_view/file_view_model.dart';
 import 'app.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,11 +13,9 @@ void main() async {
   );
 
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => FileViewModel()),
-      ],
-      child:  MyApp(),
+    ChangeNotifierProvider(
+      create: (_) => FileViewModel(),
+      child: MyApp(),
     ),
   );
 }
