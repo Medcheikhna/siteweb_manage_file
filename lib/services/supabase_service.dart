@@ -7,7 +7,6 @@ class SupabaseService {
   final String bucket = 'upload';
 
   Future<void> uploadFile(Uint8List fileBytes, String fileName) async {
-    
     await supabase.storage.from(bucket).uploadBinary(
           fileName,
           fileBytes,
